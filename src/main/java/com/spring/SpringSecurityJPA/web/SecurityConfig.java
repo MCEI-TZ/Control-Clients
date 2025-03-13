@@ -30,6 +30,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(authorizeRequest -> authorizeRequest
+                        .requestMatchers("/webjars/**").permitAll()
+                        .requestMatchers("/css/**","/js/**").permitAll()
                         .requestMatchers("/login", "/resources/**").permitAll()
                         .requestMatchers("/add/**", "/edit/**", "/delete/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
