@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
+<head th:replace="layout/plantilla :: head">
     <meta charset="UTF-8">
     <title>SPRING + THYMELEAF</title>
 </head>
@@ -8,7 +8,7 @@
 <header th:replace="layout/plantilla :: header"></header>
 <button sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/add}">[[#{persona.create}]]</a></button>
 <br/>
-<table border="1">
+<table>
     <thead>People</thead>
     <tr>
         <th>[[#{persona.table.name}]]</th>
@@ -24,7 +24,8 @@
         <td th:text="${person.email}"></td>
         <td th:text="${person.phone}"></td>
         <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/edit/}+ ${person.idPerson}">[[#{action.edit}]]</a></td>
-        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/delete/}+${person.idPerson}">[[#{action.delete}]]</a></td>
+        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/delete/}+${person.idPerson}">[[#{action.delete}]]</a>
+        </td>
     </tr>
 </table>
 </div>
