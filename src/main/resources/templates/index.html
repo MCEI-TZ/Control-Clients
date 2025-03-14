@@ -1,36 +1,55 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
+<head th:replace="layout/plantilla :: head">
     <meta charset="UTF-8">
     <title>SPRING + THYMELEAF</title>
 </head>
 <body>
 <header th:replace="layout/plantilla :: header"></header>
-<button sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/add}">[[#{persona.create}]]</a></button>
-<br/>
-<table border="1">
-    <thead>People</thead>
-    <tr>
-        <th>[[#{persona.table.name}]]</th>
-        <th>[[#{persona.table.lastname}]]</th>
-        <th>[[#{persona.table.email}]]</th>
-        <th>[[#{persona.table.phone}]]</th>
-        <th sec:authorize="hasRole('ROLE_ADMIN')">[[#{persona.table.edit}]]</th>
-        <th sec:authorize="hasRole('ROLE_ADMIN')">[[#{persona.table.delete}]]</th>
-    </tr>
-    <tr th:each="person: ${people}">
-        <td th:text="${person.name}"></td>
-        <td th:text="${person.lastname}"></td>
-        <td th:text="${person.email}"></td>
-        <td th:text="${person.phone}"></td>
-        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/edit/}+ ${person.idPerson}">[[#{action.edit}]]</a></td>
-        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/delete/}+${person.idPerson}">[[#{action.delete}]]</a></td>
-    </tr>
-</table>
+
+<div class="container mt-4">
+    <!-- Botón para crear nueva persona, visible solo para administradores -->
+    <div class="d-flex justify-content-end mb-3" sec:authorize="hasRole('ROLE_ADMIN')">
+        <a th:href="@{/add}" class="btn btn-primary">[[#{persona.create}]]</a>
+    </div>
+
+    <!-- Tabla responsiva y estilizada -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>[[#{persona.table.name}]]</th>
+                <th>[[#{persona.table.lastname}]]</th>
+                <th>[[#{persona.table.email}]]</th>
+                <th>[[#{persona.table.phone}]]</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">[[#{persona.table.edit}]]</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">[[#{persona.table.delete}]]</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="person : ${people}">
+                <td th:text="${person.name}"></td>
+                <td th:text="${person.lastname}"></td>
+                <td th:text="${person.email}"></td>
+                <td th:text="${person.phone}"></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a th:href="@{'/edit/' + ${person.idPerson}}" class="btn btn-sm btn-warning">[[#{action.edit}]]</a>
+                </td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a th:href="@{'/delete/' + ${person.idPerson}}"
+                       class="btn btn-sm btn-danger">[[#{action.delete}]]</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mensaje cuando no hay datos disponibles -->
+    <div th:if="${people == null or people.empty}" class="alert alert-info">
+        <p>[[#{persona.notfound}]]</p>
+    </div>
 </div>
-<div th:if="${people == null or people.empty}">
-    <p>[[#{persona.notfound}]]</p>
-</div>
+
 <footer th:replace="layout/plantilla :: footer"></footer>
 </body>
 </html>
