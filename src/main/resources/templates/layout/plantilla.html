@@ -56,16 +56,15 @@
         </div>
     </section>
 </header>
-<footer th:fragment="footer" class="bg-warning text-white mt-5 p-5">
-    <div class="container">
-        <div class="col">
-            <p class="lead text center">
-                <a th:href="@{/(lang=es)}">ES</a> |
-                <a th:href="@{/(lang=en)}">EN</a> |
-                <span>[[#{plantilla.pie-pagina}]]&copy; </span>
-            </p>
-        </div>
+<footer th:fragment="footer" class="bg-warning text-white p-3" style="position: fixed; bottom: 0; left: 0; width: 100%;">
+    <div class="container text-center">
+        <p class="lead">
+            <a th:href="@{/(lang=es)}" class="text-white">ES</a> |
+            <a th:href="@{/(lang=en)}" class="text-white">EN</a> |
+            <span th:text="#{plantilla.pie-pagina}">Pie de página</span>&copy;
+        </p>
     </div>
 </footer>
+
 </body>
 </html>
